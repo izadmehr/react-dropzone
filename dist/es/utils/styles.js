@@ -20,4 +20,4 @@ export default {
     borderStyle: 'dashed',
     borderRadius: 5
   }
-}
+};
