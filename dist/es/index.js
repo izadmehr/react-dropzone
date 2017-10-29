@@ -307,6 +307,7 @@ var Dropzone = function (_React$Component) {
     value: function setRefs(ref) {
       this.fileInputEl = ref;
     }
+
     /**
      * Open system file upload dialog.
      *
@@ -333,7 +334,8 @@ var Dropzone = function (_React$Component) {
           multiple = _props3.multiple,
           name = _props3.name,
           rejectClassName = _props3.rejectClassName,
-          rest = _objectWithoutProperties(_props3, ['accept', 'acceptClassName', 'activeClassName', 'children', 'disabled', 'disabledClassName', 'inputProps', 'multiple', 'name', 'rejectClassName']);
+          disableClick = _props3.disableClick,
+          rest = _objectWithoutProperties(_props3, ['accept', 'acceptClassName', 'activeClassName', 'children', 'disabled', 'disabledClassName', 'inputProps', 'multiple', 'name', 'rejectClassName', 'disableClick']);
 
       var acceptStyle = rest.acceptStyle,
           activeStyle = rest.activeStyle,
@@ -397,12 +399,10 @@ var Dropzone = function (_React$Component) {
         multiple: supportMultiple && multiple,
         ref: this.setRefs,
         onChange: this.onDrop,
-        autoComplete: 'off',
-        id: 'selectFile'
+        autoComplete: 'off'
       };
 
       var labelAttributes = {
-        htmlFor: 'selectFile',
         style: {
           width: '100%',
           height: '100%',
@@ -421,6 +421,12 @@ var Dropzone = function (_React$Component) {
       customProps.forEach(function (prop) {
         return delete divProps[prop];
       });
+      var childContainer = React.createElement(
+        'div',
+        null,
+        React.createElement('input', _extends({}, inputProps /* expand user provided inputProps first so inputAttributes override them */, inputAttributes)),
+        this.renderChildren(children, isDragActive, isDragAccept, isDragReject)
+      );
 
       return React.createElement(
         'div',
@@ -437,12 +443,11 @@ var Dropzone = function (_React$Component) {
           ref: this.setRef,
           'aria-disabled': disabled
         }),
-        React.createElement(
+        disableClick ? childContainer : React.createElement(
           'label',
           labelAttributes,
-          this.renderChildren(children, isDragActive, isDragAccept, isDragReject)
-        ),
-        React.createElement('input', _extends({}, inputProps /* expand user provided inputProps first so inputAttributes override them */, inputAttributes))
+          childContainer
+        )
       );
     }
   }]);
@@ -473,8 +478,8 @@ Dropzone.propTypes = {
   disableClick: PropTypes.bool,
 
   /**
-  * Enable/disable the dropzone entirely
-  */
+   * Enable/disable the dropzone entirely
+   */
   disabled: PropTypes.bool,
 
   /**
