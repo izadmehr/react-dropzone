@@ -319,6 +319,9 @@ var Dropzone = function (_React$Component) {
     value: function open() {
       this.isFileDialogActive = true;
       this.fileInputEl.value = null;
+      if (this.props.disableClick) {
+        this.fileInputEl.click();
+      }
     }
   }, {
     key: 'render',
