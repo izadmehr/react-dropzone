@@ -261,6 +261,9 @@ class Dropzone extends React.Component {
   open() {
     this.isFileDialogActive = true
     this.fileInputEl.value = null
+    if (this.props.disableClick) {
+      this.fileInputEl.click()
+    }
   }
 
   renderChildren = (children, isDragActive, isDragAccept, isDragReject) => {
